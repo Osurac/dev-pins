@@ -4,7 +4,6 @@ import { Layout } from '../layout';
 
 const Home = () => (
 <Layout>
-        Hala madrid
 </Layout>
 );
 
