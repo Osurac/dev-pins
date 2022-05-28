@@ -1,25 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import SimpleBottomNavigation from './layout/SimpleBottomNavigation';
+import { Nav, Layout } from './layout';
+import {Home, PINLinks, YTLinks, PODLinks} from './pages';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <Router>
+          <Nav/>
+            <Routes>
+              <Route exact path="/" element={<Home/>} />
+              <Route  path="/pin" element={<PINLinks/>} />
+              <Route  path="/yt" element={<YTLinks/>} />
+              <Route  path="/pod" element={<PODLinks/>} />
+            </Routes>
+      </Router>
+      </ThemeProvider>
   );
 }
 
