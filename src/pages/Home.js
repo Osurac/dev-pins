@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 const Home = () => (
 <Layout>
     <TitlePage>
-        Favoritos
+        Favoritos  {sessionStorage.login === 'true' ? JSON.parse(sessionStorage.user).username : 'No logueado'}
     </TitlePage>
     <div className='px-3'>
     <Grid container spacing={2}>

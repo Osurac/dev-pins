@@ -6,7 +6,7 @@ import { Layout } from '../layout';
 
 const PODLinks = () => (
     <Layout className="PODLinks">
-        <TitlePage>Mis podcast</TitlePage>
+        <TitlePage>Podcast  {sessionStorage.login === 'true' ? JSON.parse(sessionStorage.user).username : 'No logueado'} </TitlePage>
         <PodcastPinView></PodcastPinView>
         <PodcastPinView></PodcastPinView>
         <PodcastPinView></PodcastPinView>

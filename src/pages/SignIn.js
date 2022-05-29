@@ -11,6 +11,8 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import UsersController from '../controllers/UsersController';
+
 
 function Copyright(props) {
   return (
@@ -26,13 +28,24 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    let userData = {
+      'pwd': data.get('pwd'),
+      'email': data.get('email'),
+    }
+    let uc = new UsersController();
+    let response = uc.login(userData);
+    if(response.status === "OK"){
+      let user = response.user;
+      sessionStorage.setItem("user", JSON.stringify(user[0]));
+      sessionStorage.setItem("login", true);
+      document.location.href="/"
+    }else{
+      console.log(response.message);
+    }
   };
 
   return (
@@ -50,7 +63,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Login
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -58,7 +71,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Dirección de correo"
               name="email"
               autoComplete="email"
               autoFocus
@@ -67,10 +80,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
+              name="pwd"
+              label="Contraseña"
               type="password"
-              id="password"
+              id="pwd"
               autoComplete="current-password"
             />
             <FormControlLabel
@@ -83,17 +96,12 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Iniciar sesión
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link href="/signup" variant="body2">
+                  {"¿No tienes cuenta? Registro"}
                 </Link>
               </Grid>
             </Grid>
