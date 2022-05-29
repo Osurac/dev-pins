@@ -6,7 +6,7 @@ import { Layout } from '../layout';
 
 const PINLinks = () => (
     <Layout className="PINLinks">
-        <TitlePage>Mis pins</TitlePage>
+        <TitlePage>Pins  {sessionStorage.login === 'true' ? JSON.parse(sessionStorage.user).username : 'No logueado'} </TitlePage>
         <BasicPinView></BasicPinView>
         <BasicPinView></BasicPinView>
         <BasicPinView></BasicPinView>

@@ -6,7 +6,7 @@ import YTPinView from '../components/PinsViews/YTPinView';
 
 const YTLinks = () => (
     <Layout className="YTLinks">
-        <TitlePage>Mis vídeos</TitlePage>
+        <TitlePage>Vídeos  {sessionStorage.login === 'true' ? JSON.parse(sessionStorage.user).username : 'No logueado'} </TitlePage>
         <YTPinView></YTPinView>
         <YTPinView></YTPinView>
         <YTPinView></YTPinView>
