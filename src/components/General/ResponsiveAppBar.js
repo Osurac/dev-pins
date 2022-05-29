@@ -13,8 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
-const pages = ['Home', 'Pins', 'Youtube', 'Podcast'];
-const urlPages = {'Home': "/", 'Pins': "/pin", 'Youtube': "/yt", 'Podcast': "/pod"};
+const pages = ['Home', 'Pins', 'Youtube', 'Podcast', 'SignIn', 'SignUp'];
+const urlPages = {'Home': "/", 'Pins': "/pin", 'Youtube': "/yt", 'Podcast': "/pod", 'SignIn': "/signin",  'SignUp': "/signup"};
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = (props) => {
@@ -63,7 +63,7 @@ const ResponsiveAppBar = (props) => {
             <IconButton
               size="large"
               aria-label="account of current user"
-              aria-controls="menu-appbar"
+              aria-controls="menu-appbar-1"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
@@ -71,7 +71,7 @@ const ResponsiveAppBar = (props) => {
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id="menu-appbar-1"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
@@ -90,15 +90,11 @@ const ResponsiveAppBar = (props) => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    
                   <Typography textAlign="center"> <Link to={urlPages[page]}>{page}</Link></Typography>
                 </MenuItem>
               ))}
-
-              <MenuItem>
-                {props.children}
-           </MenuItem>
             </Menu>
+     
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
@@ -137,9 +133,10 @@ const ResponsiveAppBar = (props) => {
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
+            
             <Menu
               sx={{ mt: '45px' }}
-              id="menu-appbar"
+              id="menu-appbar-2"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
@@ -159,9 +156,12 @@ const ResponsiveAppBar = (props) => {
                 </MenuItem>
               ))}
             </Menu>
+            
           </Box>
+          
         </Toolbar>
       </Container>
+      {props.children}
     </AppBar>
   );
 };

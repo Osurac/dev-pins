@@ -1,10 +1,10 @@
 import React from "react";
-import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import ResponsiveAppBar from "../components/General/ResponsiveAppBar";
 
 const Nav = (props) => (
     <nav>
-        {props.children}
-        <ResponsiveAppBar></ResponsiveAppBar>
+        
+        <ResponsiveAppBar>{props.children}</ResponsiveAppBar>
     </nav>
 );
 

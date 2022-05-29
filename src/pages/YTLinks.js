@@ -1,11 +1,25 @@
 import React from 'react';
 import '../App.css';
 import { Layout } from '../layout';
-import MediaControlCard from '../components/MediaControlCard';
+import { TitlePage } from '../components/General/TitlePage';
+import YTPinView from '../components/PinsViews/YTPinView';
 
 const YTLinks = () => (
     <Layout className="YTLinks">
-        <MediaControlCard></MediaControlCard>
+        <TitlePage>Mis vídeos</TitlePage>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
+        <YTPinView></YTPinView>
     </Layout>
 );
 

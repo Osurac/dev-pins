@@ -7,7 +7,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 import { Nav } from './layout';
-import {Home, PINLinks, YTLinks, PODLinks} from './pages';
+import {Home, PINLinks, YTLinks, PODLinks, SignIn, SignUp} from './pages';
 import {
   BrowserRouter as Router,
   Routes,
@@ -27,13 +27,13 @@ function MyApp() {
               display: 'flex',
               width: '100%',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'end',
               bgcolor: 'background.default',
               color: 'text.primary',
             }}
           >
       {theme.palette.mode} mode
-      <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+      <IconButton aria-label='theme-button' sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
         {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
     </Box>
@@ -43,6 +43,8 @@ function MyApp() {
           <Route  path="/pin" element={<PINLinks/>} />
           <Route  path="/yt" element={<YTLinks/>} />
           <Route  path="/pod" element={<PODLinks/>} />
+          <Route  path="/signin" element={<SignIn/>} />
+          <Route  path="/signup" element={<SignUp/>} />
         </Routes>
       </Router>
   );
