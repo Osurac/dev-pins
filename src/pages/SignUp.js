@@ -29,10 +29,10 @@ export default function SignUp() {
     if(response.status === "OK"){
       let user = response.user;
       sessionStorage.setItem("login", true);
-      sessionStorage.setItem("user", JSON.stringify(user)[0]);
+      sessionStorage.setItem("user", JSON.stringify(user));
       document.location.href="/"
     }else{
-        
+        console.log(response)
     }
 
   };
@@ -109,7 +109,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signin" variant="body2">
+                <Link to="/signin"  variant="body2">
                   ¿Ya tienes una cuenta? Loguéate
                 </Link>
               </Grid>

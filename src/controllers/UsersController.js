@@ -8,13 +8,13 @@ export default class UsersController {
         let user =  lib.queryAll("users", {
             query: {email: userData.email}
         });
-        if(user == null){
+        if(!user.username){
             let id = lib.insert("users", {username: userData.username, pwd: userData.pwd, name: userData.name, email: userData.email});
             lib.commit();
             user = new User(id, userData.username, userData.pwd, userData.name, userData.email)
-            return {statud: "OK", user: user};
+            return {status: "OK", user: user};
         }else{
-            return {statud: "KO", message: 'El usuario ya existe'};
+            return {status: "KO", message: 'El usuario ya existe'};
         }
      }
    
