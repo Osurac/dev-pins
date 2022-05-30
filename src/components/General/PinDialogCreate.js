@@ -7,21 +7,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { red, yellow, blue } from '@mui/material/colors';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import Switch from '@mui/material/Switch';
 import PinsController from '../../controllers/PinsController';
-import YTPinsController from '../../controllers/YTPinsController';
-import PodPinsController from '../../controllers/PodPinsController';
 
-
-let selectedOption = '';
 let url = '';
 let isFav = false;
 
@@ -38,33 +28,16 @@ export default function DialogCreate() {
 
   const handleSave = (event) => {
     event.preventDefault();
-    let pc = null;
-    switch (selectedOption) {
-      case 'pin':
-         pc = new PinsController();
-        break;
-      case 'ytpin':
-         pc = new YTPinsController();
-        break;
-      case 'podpin':
-         pc = new PodPinsController();
-        break;
-      default:
-        break;
-    }
+    let pc = new PinsController();
     pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
     handleClose();
   };
-
-  const onValueChange = (event)  => {
-      selectedOption = event.target.value
-  }
 
   const onUrlChange = (event)  => {
     url = event.target.value
   }
   
-  const onFavChange = ()  => {
+  const onFavChange = (event)  => {
     isFav = !isFav
   }
 
@@ -76,20 +49,6 @@ export default function DialogCreate() {
       <Dialog open={open} onClose={handleClose} onSubmit={handleSave}>
         <DialogTitle>Crear Pin</DialogTitle>
         <DialogContent>
-        <FormControl>
-            <FormLabel id="pin_type">Tipo</FormLabel>
-            <RadioGroup
-                row
-                aria-labelledby="pin_type"
-                name="row-radio-buttons-group"
-                onChange={onValueChange}
-                defaultValue="pin"
-            >
-                <FormControlLabel value="pin" control={<Radio sx={{'&.Mui-checked': {color: blue[600],},}}/>} label="Pin" />
-                <FormControlLabel value="ytpin" control={<Radio sx={{'&.Mui-checked': {color: red[600],},}}/>} label="YT" />
-                <FormControlLabel value="podpin" control={<Radio sx={{'&.Mui-checked': {color: yellow[600],},}}/>} label="Pod" />
-            </RadioGroup>
-        </FormControl>
           <DialogContentText>
           <FormControl>
             <FormControlLabel onChange={onFavChange} control={<Switch />} label="Favorito" />
