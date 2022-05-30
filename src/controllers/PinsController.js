@@ -27,7 +27,7 @@ export default class PinsController {
             return row;
        });
        lib.commit();
-       return {status: "OK", pin: pin};
+       return {status: "OK"};
      }
    
      deletPin(pinsData){
