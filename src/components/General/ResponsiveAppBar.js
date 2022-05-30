@@ -17,7 +17,7 @@ const authPages = ['Home', 'Pins', 'Youtube', 'Podcast'];
 const authNoPages = ['SignIn', 'SignUp'];
 const urlPages = {'Home': "/", 'Pins': "/pin", 'Youtube': "/yt", 'Podcast': "/pod", 'SignIn': "/signin",  'SignUp': "/signup"};
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-const settingsPages = {'Profile': "handleCloseUserMenu", 'Account': "handleCloseUserMenu", 'Dashboard': "handleCloseUserMenu", 'Logout': "logout"};
+//const settingsPages = {'Profile': "handleCloseUserMenu", 'Account': "handleCloseUserMenu", 'Dashboard': "handleCloseUserMenu", 'Logout': "logout"};
 const ResponsiveAppBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -187,7 +187,7 @@ const ResponsiveAppBar = (props) => {
               <Typography textAlign="center">{setting}</Typography>
             </MenuItem>
             :
-              <MenuItem key={setting} onClick={settingsPages[setting]}>
+              <MenuItem key={setting} onClick={handleCloseUserMenu}>
                 <Typography textAlign="center">{setting}</Typography>
               </MenuItem>
             ))
