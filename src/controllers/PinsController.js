@@ -20,8 +20,8 @@ export default class PinsController {
    
      updatePin(pinsData){
        let lib = this.checkDB();
-       lib.update("pins", {id: pinsData.id}, function(row) {
-            row.url = pinsData.id;
+       lib.update("pins", {ID: pinsData.pin_id}, function(row) {
+            row.url = pinsData.url;
             row.user_id = pinsData.user_id;
             row.fav = pinsData.fav;
             return row;
@@ -32,9 +32,25 @@ export default class PinsController {
    
      deletPin(pinsData){
        let lib = this.checkDB();
-       lib.deleteRows("pins", {user_id: pinsData.user_id, url: pinsData.url});
+       lib.deleteRows("pins", {ID: pinsData.pin_id});
        lib.commit();
        return {status: "OK"};
+     }
+
+     getPinsFromUser(id){
+      let lib = this.checkDB();
+      let pins = lib.queryAll("pins", {
+        query: {user_id: id}
+      });
+      return pins;
+     }
+
+     getPinsFavFromUser(id){
+      let lib = this.checkDB();
+      let pins = lib.queryAll("pins", {
+        query: {user_id: id, fav: true}
+      });
+      return pins;
      }
    
     checkDB(){

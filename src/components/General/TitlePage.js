@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 
 const TitlePage = (props) => (
     <div className="p-4">
-    <Typography variant="h5" gutterBottom component="div">
+    <Typography  variant="h5" gutterBottom component={'span'}>
         {props.children}
       </Typography>
       <Divider />

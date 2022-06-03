@@ -4,7 +4,15 @@ import BasicPinView from '../components/PinsViews/BasicPinView';
 import { TitlePage } from '../components/General/TitlePage';
 import { Layout } from '../layout';
 import PinDialogCreate from '../components/General/PinDialogCreate';
+import PinsController from '../controllers/PinsController';
 import Grid from '@mui/material/Grid';
+
+
+let pins = [];
+let pc = new PinsController();
+if(sessionStorage.login){
+    pins = pc.getPinsFromUser(JSON.parse(sessionStorage.user).ID);
+}
 
 const PINLinks = () => (
     <Layout className="PINLinks">
@@ -13,21 +21,14 @@ const PINLinks = () => (
                 <Grid item xs={10}>
                     Pins  {sessionStorage.login === 'true' ? JSON.parse(sessionStorage.user).username : 'No logueado'}
                 </Grid>
-                <Grid item xs={2}>
+                <Grid component={'span'} item xs={2}>
                     <PinDialogCreate></PinDialogCreate>
                 </Grid>
             </Grid>
         </TitlePage>
-        <BasicPinView></BasicPinView>
-        <BasicPinView></BasicPinView>
-        <BasicPinView></BasicPinView>
-        <BasicPinView></BasicPinView>
-        <BasicPinView></BasicPinView>
-        <BasicPinView></BasicPinView>
-        <BasicPinView></BasicPinView>
-        <BasicPinView></BasicPinView>
-        <BasicPinView></BasicPinView>
-        <BasicPinView></BasicPinView>
+        {pins.map((pin, i) => {      
+             return (<BasicPinView key={i} url={pin.url} fav={pin.fav} pin_id={pin.ID}  />)
+        })}
     </Layout>
 );
 
