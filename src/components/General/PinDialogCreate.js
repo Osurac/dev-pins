@@ -8,7 +8,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
 import Switch from '@mui/material/Switch';
 import PinsController from '../../controllers/PinsController';
 
@@ -24,13 +23,14 @@ export default function DialogCreate() {
 
   const handleClose = () => {
     setOpen(false);
+
   };
 
   const handleSave = (event) => {
     event.preventDefault();
     let pc = new PinsController();
     pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
-    handleClose();
+    window.location.reload()
   };
 
   const onUrlChange = (event)  => {
@@ -50,9 +50,7 @@ export default function DialogCreate() {
         <DialogTitle>Crear Pin</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          <FormControl>
             <FormControlLabel onChange={onFavChange} control={<Switch />} label="Favorito" />
-          </FormControl>
           </DialogContentText>
           <TextField
             onChange={onUrlChange}

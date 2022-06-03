@@ -6,49 +6,71 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import PinsController from '../../controllers/PinsController';
 import PodPinsController from '../../controllers/PodPinsController';
+import YTPinsController from '../../controllers/YTPinsController';
+import EditIcon from '@mui/icons-material/Edit';
 
-let url = '';
-let isFav = false;
-let pc = new PodPinsController();
-export default function PodDialogCreate() {
+export default function PinDialogUpdate(props) {
   const [open, setOpen] = React.useState(false);
 
+  let url = props.defaultValue;
+  let isFav = props.isFav;
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    props.closeHandler();
   };
+
+  const getController = (type) => {
+    let pc = null;
+    switch (type) {
+      case 'pin':
+         pc = new PinsController();
+        break;
+      case 'ytpin':
+         pc = new YTPinsController();
+        break;
+      case 'podpin':
+         pc = new PodPinsController();
+        break;
+      default:
+        break;
+    }
+    return pc;
+  };
+
 
   const handleSave = (event) => {
     event.preventDefault();
-    pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
-    window.location.reload()
+    let pc = getController(props.type)
+    pc.updatePin({pin_id: props.pin_id, url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
+    return props.saveHandler();
   };
 
   const onUrlChange = (event)  => {
     url = event.target.value
   }
   
-  const onFavChange = ()  => {
+  const onFavChange = (event)  => {
     isFav = !isFav
   }
 
   return (
     <div  style={{ display: "flex" }}>
-      <Button style={{ marginLeft: "auto" }} label="Añadir Pin" variant="outlined" onClick={handleClickOpen}>
-      < AddCircleIcon></AddCircleIcon>
-      </Button>
+      <span label="Añadir Pin" onClick={handleClickOpen}>
+       <EditIcon/> Update pin
+      </span>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSave}>
-        <DialogTitle>Crear PodcastPin</DialogTitle>
+        <DialogTitle>Update Pin</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <FormControlLabel onChange={onFavChange} control={<Switch />} label="Favorito" />
+            <FormControlLabel  onChange={onFavChange} control={<Switch defaultChecked={props.isFav} />} label="Favorito" />
           </DialogContentText>
           <TextField
             onChange={onUrlChange}
@@ -59,7 +81,9 @@ export default function PodDialogCreate() {
             type="text"
             fullWidth
             variant="standard"
+            defaultValue={props.defaultValue}
           />
+          
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>

@@ -17,24 +17,42 @@ export default class YTpinsController {
             return {status: "KO", message: 'Ya tienes un pin con esa URL'};
         }
      }
-   
      updatePin(ytpinsData){
-       let lib = this.checkDB();
-       lib.update("ytpins", {id: ytpinsData.id}, function(row) {
-            row.url = ytpinsData.id;
-            row.user_id = ytpinsData.user_id;
-            row.fav = ytpinsData.fav;
-            return row;
-       });
-       lib.commit();
-       return {status: "OK"};
-     }
+      let lib = this.checkDB();
+      lib.update("ytpins", {ID: ytpinsData.pin_id}, function(row) {
+           row.url = ytpinsData.url;
+           row.user_id = ytpinsData.user_id;
+           row.fav = ytpinsData.fav;
+           return row;
+      });
+      lib.commit();
+      return {status: "OK"};
+    }
+  
    
      deletPin(ytpinsData){
        let lib = this.checkDB();
-       lib.deleteRows("ytpins", {user_id: ytpinsData.user_id, url: ytpinsData.url});
+       console.log(ytpinsData)
+       lib.deleteRows("ytpins", {ID: ytpinsData.pin_id});
        lib.commit();
        return {status: "OK"};
+     }
+
+     
+     getPinsFromUser(id){
+      let lib = this.checkDB();
+      let pins = lib.queryAll("ytpins", {
+        query: {user_id: id}
+      });
+      return pins;
+     }
+
+     getPinsFavFromUser(id){
+      let lib = this.checkDB();
+      let pins = lib.queryAll("ytpins", {
+        query: {user_id: id, fav: true}
+      });
+      return pins;
      }
    
     checkDB(){

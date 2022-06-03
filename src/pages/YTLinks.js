@@ -5,6 +5,13 @@ import { TitlePage } from '../components/General/TitlePage';
 import YTPinView from '../components/PinsViews/YTPinView';
 import Grid from '@mui/material/Grid';
 import YTDialogCreate from '../components/General/YTDialogCreate';
+import YTpinsController from '../controllers/YTPinsController';
+
+let pins = [];
+if(sessionStorage.login){
+    const pc = new YTpinsController();
+    pins = pc.getPinsFromUser(JSON.parse(sessionStorage.user).ID);
+}
 
 const YTLinks = () => (
     <Layout className="YTLinks">
@@ -13,24 +20,14 @@ const YTLinks = () => (
                 <Grid item xs={10}>
                     Vídeos  {sessionStorage.login === 'true' ? JSON.parse(sessionStorage.user).username : 'No logueado'}
                 </Grid>
-                <Grid item xs={2}>
+                <Grid component={'span'} item xs={2}>
                     <YTDialogCreate></YTDialogCreate>
                 </Grid>
             </Grid>
         </TitlePage>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
-        <YTPinView></YTPinView>
+        {pins.map((pin, i) => {      
+           return (<YTPinView key={i} url={pin.url} fav={pin.fav} pin_id={pin.ID} />) 
+        })}
     </Layout>
 );
 

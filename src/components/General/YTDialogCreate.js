@@ -8,14 +8,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
 import Switch from '@mui/material/Switch';
 import YTPinsController from '../../controllers/YTPinsController';
 
 let url = '';
 let isFav = false;
 
-export default function DialogCreate() {
+export default function YTDialogCreate() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -30,7 +29,7 @@ export default function DialogCreate() {
     event.preventDefault();
     let pc = new YTPinsController();
     pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
-    handleClose();
+    window.location.reload()
   };
 
   const onUrlChange = (event)  => {
@@ -50,9 +49,7 @@ export default function DialogCreate() {
         <DialogTitle>Crear YouTube Pin</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          <FormControl>
             <FormControlLabel onChange={onFavChange} control={<Switch />} label="Favorito" />
-          </FormControl>
           </DialogContentText>
           <TextField
             onChange={onUrlChange}

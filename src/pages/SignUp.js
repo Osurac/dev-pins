@@ -31,10 +31,7 @@ export default function SignUp() {
       sessionStorage.setItem("login", true);
       sessionStorage.setItem("user", JSON.stringify(user));
       document.location.href="/"
-    }else{
-        console.log(response)
     }
-
   };
 
   return (

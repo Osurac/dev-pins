@@ -13,15 +13,13 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import Switch from '@mui/material/Switch';
 import PinsController from '../../controllers/PinsController';
 import YTPinsController from '../../controllers/YTPinsController';
 import PodPinsController from '../../controllers/PodPinsController';
 
 
-let selectedOption = '';
+let selectedOption = 'pin';
 let url = '';
 let isFav = false;
 
@@ -39,6 +37,7 @@ export default function DialogCreate() {
   const handleSave = (event) => {
     event.preventDefault();
     let pc = null;
+    console.log(selectedOption)
     switch (selectedOption) {
       case 'pin':
          pc = new PinsController();
@@ -53,7 +52,7 @@ export default function DialogCreate() {
         break;
     }
     pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
-    handleClose();
+    window.location.reload()
   };
 
   const onValueChange = (event)  => {
@@ -91,9 +90,7 @@ export default function DialogCreate() {
             </RadioGroup>
         </FormControl>
           <DialogContentText>
-          <FormControl>
             <FormControlLabel onChange={onFavChange} control={<Switch />} label="Favorito" />
-          </FormControl>
           </DialogContentText>
           <TextField
             onChange={onUrlChange}
