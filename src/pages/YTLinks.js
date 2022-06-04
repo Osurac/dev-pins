@@ -10,7 +10,7 @@ import YTpinsController from '../controllers/YTPinsController';
 let pins = [];
 if(sessionStorage.login){
     const pc = new YTpinsController();
-    pins = pc.getPinsFromUser(JSON.parse(sessionStorage.user).ID);
+    pins = pc.getPinsFromUser(JSON.parse(sessionStorage.user).id);
 }
 
 const YTLinks = () => (
@@ -26,7 +26,7 @@ const YTLinks = () => (
             </Grid>
         </TitlePage>
         {pins.map((pin, i) => {      
-           return (<YTPinView key={i} url={pin.url} fav={pin.fav} pin_id={pin.ID} />) 
+        return (<YTPinView  key={i} url={pin.url} fav={pin.fav} pin_id={pin.ID} thumbnail={pin.thumbnail} title={pin.title}  channelTitle={pin.channelTitle}/>)
         })}
     </Layout>
 );

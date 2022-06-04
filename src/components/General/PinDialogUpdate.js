@@ -49,7 +49,7 @@ export default function PinDialogUpdate(props) {
   const handleSave = (event) => {
     event.preventDefault();
     let pc = getController(props.type)
-    pc.updatePin({pin_id: props.pin_id, url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
+    pc.updatePin({pin_id: props.pin_id, url: url, user_id: JSON.parse(sessionStorage.user).id, fav: isFav})
     return props.saveHandler();
   };
 

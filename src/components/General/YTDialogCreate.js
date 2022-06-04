@@ -27,23 +27,27 @@ export default function YTDialogCreate() {
 
   const handleSave = (event) => {
     event.preventDefault();
-    let pc = new YTPinsController();
-    pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
-    window.location.reload()
+    createPin();
   };
 
-  const onUrlChange = (event)  => {
+  async function createPin() {
+    let pc = new YTPinsController();
+    let response = await pc.createPin({ url: url, user_id: JSON.parse(sessionStorage.user).id, fav: isFav })
+    if (response.status === 'OK') window.location.reload()
+  }
+
+  const onUrlChange = (event) => {
     url = event.target.value
   }
-  
-  const onFavChange = (event)  => {
+
+  const onFavChange = (event) => {
     isFav = !isFav
   }
 
   return (
-    <div  style={{ display: "flex" }}>
-      <Button style={{ marginLeft: "auto" }} label="Añadir Pin" variant="outlined" onClick={handleClickOpen}>
-      < AddCircleIcon></AddCircleIcon>
+    <div style={{ display: "flex" }}>
+      <Button style={{ marginLeft: "auto" }} label="Añadir Pin" onClick={handleClickOpen}>
+        < AddCircleIcon></AddCircleIcon>
       </Button>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSave}>
         <DialogTitle>Crear YouTube Pin</DialogTitle>
@@ -61,7 +65,7 @@ export default function YTDialogCreate() {
             fullWidth
             variant="standard"
           />
-          
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>

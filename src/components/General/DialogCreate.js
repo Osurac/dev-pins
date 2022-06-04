@@ -37,13 +37,12 @@ export default function DialogCreate() {
   const handleSave = (event) => {
     event.preventDefault();
     let pc = null;
-    console.log(selectedOption)
     switch (selectedOption) {
       case 'pin':
          pc = new PinsController();
         break;
       case 'ytpin':
-         pc = new YTPinsController();
+        createPinYT();
         break;
       case 'podpin':
          pc = new PodPinsController();
@@ -51,9 +50,17 @@ export default function DialogCreate() {
       default:
         break;
     }
-    pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
+    pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).id, fav: isFav})
     window.location.reload()
   };
+
+  async function createPinYT() {
+    let pc = new YTPinsController();
+    let response = await pc.createPin({ url: url, user_id: JSON.parse(sessionStorage.user).id, fav: isFav })
+    console.log(response)
+    if (response.status === 'OK') window.location.reload()
+  }
+
 
   const onValueChange = (event)  => {
       selectedOption = event.target.value
@@ -69,7 +76,7 @@ export default function DialogCreate() {
 
   return (
     <div  style={{ display: "flex" }}>
-      <Button style={{ marginLeft: "auto" }} label="Añadir Pin" variant="outlined" onClick={handleClickOpen}>
+      <Button style={{ marginLeft: "auto" }} label="Añadir Pin" onClick={handleClickOpen}>
       < AddCircleIcon></AddCircleIcon>
       </Button>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSave}>

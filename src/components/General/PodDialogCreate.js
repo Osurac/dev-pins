@@ -27,7 +27,7 @@ export default function PodDialogCreate() {
 
   const handleSave = (event) => {
     event.preventDefault();
-    pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
+    pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).id, fav: isFav})
     window.location.reload()
   };
 
@@ -41,7 +41,7 @@ export default function PodDialogCreate() {
 
   return (
     <div  style={{ display: "flex" }}>
-      <Button style={{ marginLeft: "auto" }} label="Añadir Pin" variant="outlined" onClick={handleClickOpen}>
+      <Button style={{ marginLeft: "auto" }} label="Añadir Pin" onClick={handleClickOpen}>
       < AddCircleIcon></AddCircleIcon>
       </Button>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSave}>

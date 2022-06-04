@@ -3,7 +3,6 @@ import '../App.css';
 import { TitlePage } from '../components/General/TitlePage';
 import { Layout } from '../layout';
 import Grid from '@mui/material/Grid';
-import Item from '../components/General/Item';
 import BasicPinView from '../components/PinsViews/BasicPinView';
 import PodcastPinView from '../components/PinsViews/PodcastPinView';
 import YTPinView from '../components/PinsViews/YTPinView';
@@ -24,6 +23,7 @@ if(sessionStorage.login){
  updatePins();
 }
 
+
 const Home = () => (
   <Layout>
     <TitlePage>
@@ -42,27 +42,27 @@ const Home = () => (
       <Grid container spacing={2}>
         <Grid item sm={12} md={4} width="100%">
           <Typography variant="subtitle1" gutterBottom component="div" className='pl-2'> Pins </Typography>
-          <Item>
+
             {pins.map((pin, i) => {
               return (<BasicPinView key={i} url={pin.url} fav={pin.fav} pin_id={pin.ID} />)
             })}
-          </Item>
+ 
         </Grid>
         <Grid item sm={12} md={4} width="100%">
           <Typography variant="subtitle1" gutterBottom component="div" className='pl-2'> Vídeos </Typography>
-          <Item>   
+  
             {pinsyt.map((pin, i) => {
-              return (<YTPinView  key={i} url={pin.url} fav={pin.fav} pin_id={pin.ID} />)
+              return (<YTPinView  key={i} url={pin.url} fav={pin.fav} pin_id={pin.ID} thumbnail={pin.thumbnail} title={pin.title} channelTitle={pin.channelTitle}/>)
             })}
-          </Item>
+  
         </Grid>
         <Grid item sm={12} md={4} width="100%">
           <Typography variant="subtitle1" gutterBottom component="div" className='pl-2'> Podcast </Typography>
-          <Item>
+
             {pinspod.map((pin, i) => {
               return (<PodcastPinView key={i} url={pin.url} fav={pin.fav} pin_id={pin.ID} />)
             })}
-          </Item>
+
         </Grid>
       </Grid>
     </div>
@@ -71,12 +71,12 @@ const Home = () => (
 
 function updatePins(){
 
-  pinsyt = pc.getPinsFavFromUser(JSON.parse(sessionStorage.user).ID);
+  pinsyt = pc.getPinsFavFromUser(JSON.parse(sessionStorage.user).id);
 
-  pins = pcp.getPinsFavFromUser(JSON.parse(sessionStorage.user).ID);
+  pins = pcp.getPinsFavFromUser(JSON.parse(sessionStorage.user).id);
 
-  pinspod = pco.getPinsFavFromUser(JSON.parse(sessionStorage.user).ID);
-  console.log(pins)
+  pinspod = pco.getPinsFavFromUser(JSON.parse(sessionStorage.user).id);
+
 }
 
 export default Home;

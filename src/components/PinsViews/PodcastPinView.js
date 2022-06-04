@@ -40,7 +40,7 @@ export default function BasicPinView(props) {
         <CardHeader
           className=''
           avatar={
-            <Avatar sx={{ bgcolor: yellow[500] }} >
+            <Avatar sx={{ bgcolor: yellow[500], cursor: 'pointer' }} >
               <PodcastsIcon />
             </Avatar>
           }
@@ -80,7 +80,6 @@ export default function BasicPinView(props) {
             </div>
           }
           title={props.url}
-          subheader="categoria"
         />
       </Card>
     </div>

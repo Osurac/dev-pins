@@ -15,14 +15,23 @@ import Divider from '@mui/material/Divider';
 
 import PinDialogUpdate from '../General/PinDialogUpdate';
 import PinDialogDelete from '../General/PinDialogDelete';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 
-export default function BasicPinView(props) {
+export default function  TYPinView(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const theme = useTheme();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -36,18 +45,17 @@ export default function BasicPinView(props) {
   };
   return (
     <div className='px-3 pt-3'>
-      <Card>
+      <Card sx={{ maxWidth: '100%' }}>
         <CardHeader
-          className=''
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} >
-                <YouTube/>
-            </Avatar>
+            <Avatar onClick={()=> window.open(props.url, "_blank")} sx={{ bgcolor: red[500] , cursor: 'pointer' }} >
+            <YouTube/>
+        </Avatar>
           }
           action={
             <div>
               <IconButton aria-label="favourite">
-                <StarsIcon  color={props.fav ? 'success' : 'primary'} />
+                <StarsIcon color={props.fav ? 'success' : 'primary'} />
               </IconButton>
               <IconButton
                 aria-label="more"
@@ -79,14 +87,49 @@ export default function BasicPinView(props) {
               </StyledMenu>
             </div>
           }
-          title={props.url}
-          subheader="categoria"
+          title={getTitle(props.url)}
         />
+        <CardContent sx={{ display: 'flex', width: '100%' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+            <CardContent sx={{ flex: '1 0 auto' }}>
+              <Typography component="div" variant="h8">
+                {props.title}
+              </Typography>
+              <Typography variant="subtitle1" color="text.secondary" component="div">
+              {props.channelTitle}
+              </Typography>
+            </CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+              <IconButton aria-label="previous">
+                {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
+              </IconButton>
+              <IconButton onClick={()=> window.open(props.url, "_blank")} aria-label="play/pause">
+                <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+              </IconButton>
+              <IconButton aria-label="next">
+                {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
+              </IconButton>
+            </Box>
+          </Box>
+          <CardMedia
+            component="img"
+            sx={{ width: 151 }}
+            image={props.thumbnail}
+            alt={props.thumbnail}
+          />
+        </CardContent>
       </Card>
     </div>
   );
 }
 
+function getTitle(url){
+  if (window.innerWidth < 720) {
+    return url.slice(0, 25)+'...';
+  } else {
+    return url;
+  }
+}
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
