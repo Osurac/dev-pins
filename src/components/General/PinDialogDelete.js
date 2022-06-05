@@ -48,7 +48,7 @@ export default function PinDialogDelete(props) {
 
   return (
     <div  style={{ display: "flex" }}>
-      <span style={{ marginLeft: "auto" }} label="Añadir Pin" variant="outlined" onClick={handleClickOpen}>
+      <span style={{ marginLeft: "auto" }} label="Añadir Pin" onClick={handleClickOpen}>
       <ArchiveIcon/> Delete pìn
       </span>
       <Dialog open={open} onClose={handleClose} onSubmit={handleSave}>
