@@ -10,19 +10,19 @@ import PodcastsIcon from '@mui/icons-material/Podcasts';
 import StarsIcon from '@mui/icons-material/Stars';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
 import Divider from '@mui/material/Divider';
-
+import Box from '@mui/material/Box';
 import PinDialogUpdate from '../General/PinDialogUpdate';
 import PinDialogDelete from '../General/PinDialogDelete';
+import { CardContent } from '@mui/material';
 
 export default function BasicPinView(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -34,6 +34,7 @@ export default function BasicPinView(props) {
     setAnchorEl(null);
     window.location.reload()
   };
+
   return (
     <div className='px-3 pt-3'>
       <Card>
@@ -47,7 +48,7 @@ export default function BasicPinView(props) {
           action={
             <div>
               <IconButton aria-label="favourite">
-                <StarsIcon  color={props.fav ? 'success' : 'primary'} />
+                <StarsIcon color={props.fav ? 'success' : 'primary'} />
               </IconButton>
               <IconButton
                 aria-label="more"
@@ -59,6 +60,8 @@ export default function BasicPinView(props) {
               >
                 <MoreVertIcon />
               </IconButton>
+ 
+
               <StyledMenu
                 id="long-menu"
                 MenuListProps={{
@@ -68,22 +71,50 @@ export default function BasicPinView(props) {
                 open={open}
                 onClose={handleClose}
               >
-                   
-                <MenuItem  disableRipple>
-                <PinDialogUpdate closeHandler={handleClose} type="podpin" saveHandler={handleEdit} defaultValue={props.url}  isFav={props.fav} pin_id={props.pin_id}></PinDialogUpdate>
+
+                <MenuItem disableRipple>
+                  <PinDialogUpdate closeHandler={handleClose} type="podpin" saveHandler={handleEdit} defaultValue={props.url} isFav={props.fav} pin_id={props.pin_id}></PinDialogUpdate>
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem disableRipple>
                   <PinDialogDelete closeHandler={handleClose} type="podpin" saveHandler={handleDelete} pin_id={props.pin_id} ></PinDialogDelete>
                 </MenuItem>
               </StyledMenu>
+
             </div>
           }
-          title={props.url}
+          title={getTitle(props.url)}
         />
+        <CardContent>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              mt: -1,
+            }}
+          >
+                      <audio controls preload="none">
+   <source src={props.url} type="audio/mpeg" />
+</audio>
+          </Box>
+        </CardContent>
       </Card>
     </div>
   );
+}
+
+function getTitle(url){
+  let ret;
+  if (window.innerWidth < 720 ) {
+    ret = url.slice(0, 25)+'...';
+  } else {
+    ret = url;
+  }
+  if(url.length > 30){
+    ret = url.slice(0, 55)+'...';
+  }
+  return ret;
 }
 
 const StyledMenu = styled((props) => (
