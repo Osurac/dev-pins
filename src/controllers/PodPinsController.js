@@ -4,12 +4,11 @@ import localStorageDB from "localstoragedb";
 export default class PodPinsController {
     
     createPin(podpinsData){
-      console.log("creo")
         let lib = this.checkDB();
         let pin =  lib.queryAll("podpins", {
             query: {url: podpinsData.url, user_id: podpinsData.user_id}
         });
-        if(!pin.url){
+        if(pin.length === 0){
             let id = lib.insert("podpins", {url: podpinsData.url, user_id: podpinsData.user_id, fav: podpinsData.fav});
             lib.commit();
             pin = new Pin(id, podpinsData.url, podpinsData.user_id, podpinsData.fav)
@@ -21,7 +20,6 @@ export default class PodPinsController {
 
      updatePin(podpinsData){
       let lib = this.checkDB();
-      console.log(podpinsData)
       lib.update("podpins", {ID: podpinsData.pin_id}, function(row) {
            row.url = podpinsData.url;
            row.user_id = podpinsData.user_id;

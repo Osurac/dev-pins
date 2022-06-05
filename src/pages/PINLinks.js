@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 let pins = [];
 let pc = new PinsController();
 if(sessionStorage.login){
-    pins = pc.getPinsFromUser(JSON.parse(sessionStorage.user).id);
+    pins = pc.getPinsFromUser(JSON.parse(sessionStorage.user).ID);
 }
 
 const PINLinks = () => (

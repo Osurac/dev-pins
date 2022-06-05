@@ -10,7 +10,7 @@ import YTpinsController from '../controllers/YTPinsController';
 let pins = [];
 if(sessionStorage.login){
     const pc = new YTpinsController();
-    pins = pc.getPinsFromUser(JSON.parse(sessionStorage.user).id);
+    pins = pc.getPinsFromUser(JSON.parse(sessionStorage.user).ID);
 }
 
 const YTLinks = () => (

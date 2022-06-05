@@ -71,11 +71,11 @@ const Home = () => (
 
 function updatePins(){
 
-  pinsyt = pc.getPinsFavFromUser(JSON.parse(sessionStorage.user).id);
+  pinsyt = pc.getPinsFavFromUser(JSON.parse(sessionStorage.user).ID);
 
-  pins = pcp.getPinsFavFromUser(JSON.parse(sessionStorage.user).id);
+  pins = pcp.getPinsFavFromUser(JSON.parse(sessionStorage.user).ID);
 
-  pinspod = pco.getPinsFavFromUser(JSON.parse(sessionStorage.user).id);
+  pinspod = pco.getPinsFavFromUser(JSON.parse(sessionStorage.user).ID);
 
 }
 

@@ -14,30 +14,65 @@ export default class YTpinsController {
         let pin = lib.queryAll("ytpins", {
           query: { url: ytpinsData.url, user_id: ytpinsData.user_id }
         });
-        if (!pin.url) {
-          let id = lib.insert("ytpins", { url: ytpinsData.url, user_id: JSON.parse(sessionStorage.user).id, fav: ytpinsData.fav, 
-                                          thumbnail: videoData.thumbnails.high.url, title: videoData.title, channelTitle: videoData.channelTitle});
+        if (pin.length === 0) {
+          let id = lib.insert("ytpins", {
+            url: ytpinsData.url, user_id: JSON.parse(sessionStorage.user).ID, fav: ytpinsData.fav,
+            thumbnail: videoData.thumbnails.high.url, title: videoData.title, channelTitle: videoData.channelTitle
+          });
           lib.commit();
           pin = new YTPin(id, ytpinsData.url, ytpinsData.user_id, ytpinsData.fav)
           return { status: "OK", pin: pin };
         } else {
           return { status: "KO", message: 'Ya tienes un pin con esa URL' };
         }
-      } else {
-        return { status: 'KO', message: 'No es un formato válido de URL de YouTube' }
       }
+    } else {
+      return { status: 'KO', message: 'No es un formato válido de URL de YouTube' }
     }
   }
-  updatePin(ytpinsData) {
-    let lib = this.checkDB();
-    lib.update("ytpins", { ID: ytpinsData.pin_id }, function (row) {
-      row.url = ytpinsData.url;
-      row.user_id = ytpinsData.user_id;
-      row.fav = ytpinsData.fav;
-      return row;
-    });
-    lib.commit();
-    return { status: "OK" };
+
+
+  async updatePin(ytpinsData) {
+    let cont = true;
+    let check = this.validateYouTubeUrl(ytpinsData.url);
+    if (check === true) {
+      let lib = this.checkDB();
+      let actualPin = lib.queryAll("ytpins", {
+        query: { ID: ytpinsData.pin_id }
+      })[0];
+      console.log(actualPin);
+      if (actualPin.url !== ytpinsData.url) {
+        let pin = lib.queryAll("ytpins", {
+          query: { url: ytpinsData.url, user_id: ytpinsData.user_id }
+        })[0];
+        console.log(pin)
+        if (pin !== undefined) {
+          cont = false;
+        }
+      }
+      if (cont === true) {
+        const videoData = await this.getYTApiData(ytpinsData.url);
+        if (videoData !== false) {
+          lib.update("ytpins", { ID: ytpinsData.pin_id }, function (row) {
+            row.url = ytpinsData.url;
+            row.user_id = ytpinsData.user_id;
+            row.fav = ytpinsData.fav;
+            row.thumbnail = videoData.thumbnails.high.url;
+            row.title = videoData.title;
+            row.channelTitle = videoData.channelTitle;
+            return row;
+          });
+          lib.commit();
+          return { status: "OK" };
+        }
+      } else {
+        return { status: 'KO', message: 'Ya tienes un pin con esta URL' }
+      }
+
+    } else {
+      console.log("Mal")
+      return { status: 'KO', message: 'No es un formato válido de URL de YouTube' }
+    }
   }
 
 
@@ -68,7 +103,7 @@ export default class YTpinsController {
   checkDB() {
     var lib = new localStorageDB("ytpins", localStorage);
     if (lib.isNew()) {
-      lib.createTable("ytpins", ["url", "user_id", "fav", "thumbnail", "id", "title", "channelTitle"]);
+      lib.createTable("ytpins", ["url", "user_id", "fav", "thumbnail", "title", "channelTitle"]);
       lib.commit();
     }
     return lib;
@@ -76,20 +111,19 @@ export default class YTpinsController {
 
   async getYTApiData(video_url) {
     let id = this.getUrlId(video_url);
-    console.log(id)
     if (id !== false) {
       const response = await Youtube.get('/videos', {
         params: {
           id: id
         }
       });
-      console.log(response.data.items[0].snippet);
       return response.data.items[0].snippet;
     } else {
       return false;
     }
   }
 
+  /* eslint-disable */
   validateYouTubeUrl(url) {
     if (url !== undefined || url !== '') {
       var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;

@@ -17,14 +17,18 @@ import Switch from '@mui/material/Switch';
 import PinsController from '../../controllers/PinsController';
 import YTPinsController from '../../controllers/YTPinsController';
 import PodPinsController from '../../controllers/PodPinsController';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 
 let selectedOption = 'pin';
 let url = '';
 let isFav = false;
+let errorMessage = '';
 
 export default function DialogCreate() {
   const [open, setOpen] = React.useState(false);
+  const [alert, setAlert] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -36,29 +40,54 @@ export default function DialogCreate() {
 
   const handleSave = (event) => {
     event.preventDefault();
-    let pc = null;
     switch (selectedOption) {
       case 'pin':
-         pc = new PinsController();
+        createBasicPin();
         break;
       case 'ytpin':
         createPinYT();
         break;
       case 'podpin':
-         pc = new PodPinsController();
+        createPodPin()
         break;
       default:
         break;
     }
-    pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).id, fav: isFav})
-    window.location.reload()
   };
+
+  function createBasicPin(){
+    let pc = null;
+    pc = new PinsController();
+    let response = pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
+    if (response.status === 'OK') {
+      window.location.reload()
+    }else{
+      errorMessage = response.message;
+      setAlert(true);
+    }
+  }
+
+  function createPodPin(){
+    let pc = null;
+    pc = new PodPinsController();
+    let response = pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
+    if (response.status === 'OK') {
+      window.location.reload()
+    }else{
+      errorMessage = response.message;
+      setAlert(true);
+    }
+  }
 
   async function createPinYT() {
     let pc = new YTPinsController();
-    let response = await pc.createPin({ url: url, user_id: JSON.parse(sessionStorage.user).id, fav: isFav })
-    console.log(response)
-    if (response.status === 'OK') window.location.reload()
+    let response = await pc.createPin({ url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav })
+    if (response.status === 'OK') {
+      window.location.reload()
+    }else{
+      errorMessage = response.message;
+      setAlert(true);
+    }
   }
 
 
@@ -73,6 +102,19 @@ export default function DialogCreate() {
   const onFavChange = ()  => {
     isFav = !isFav
   }
+
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setAlert(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  
 
   return (
     <div  style={{ display: "flex" }}>
@@ -116,6 +158,11 @@ export default function DialogCreate() {
           <Button onClick={handleSave}>Guardar</Button>
         </DialogActions>
       </Dialog>
+      <Snackbar open={alert} autoHideDuration={3000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+         {errorMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

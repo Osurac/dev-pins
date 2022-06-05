@@ -10,12 +10,16 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import YTPinsController from '../../controllers/YTPinsController';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 let url = '';
 let isFav = false;
+let errorMessage = '';
 
 export default function YTDialogCreate() {
   const [open, setOpen] = React.useState(false);
+  const [alert, setAlert] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,8 +36,13 @@ export default function YTDialogCreate() {
 
   async function createPin() {
     let pc = new YTPinsController();
-    let response = await pc.createPin({ url: url, user_id: JSON.parse(sessionStorage.user).id, fav: isFav })
-    if (response.status === 'OK') window.location.reload()
+    let response = await pc.createPin({ url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav })
+    if (response.status === 'OK') {
+      window.location.reload()
+    } else {
+      errorMessage = response.message;
+      setAlert(true);
+    }
   }
 
   const onUrlChange = (event) => {
@@ -43,6 +52,19 @@ export default function YTDialogCreate() {
   const onFavChange = (event) => {
     isFav = !isFav
   }
+
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setAlert(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  
 
   return (
     <div style={{ display: "flex" }}>
@@ -72,6 +94,11 @@ export default function YTDialogCreate() {
           <Button onClick={handleSave}>Guardar</Button>
         </DialogActions>
       </Dialog>
+      <Snackbar open={alert} autoHideDuration={3000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+         {errorMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

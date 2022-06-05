@@ -10,12 +10,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import PodPinsController from '../../controllers/PodPinsController';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 let url = '';
 let isFav = false;
 let pc = new PodPinsController();
+let errorMessage = '';
+
 export default function PodDialogCreate() {
   const [open, setOpen] = React.useState(false);
+  const [alert, setAlert] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -27,8 +32,13 @@ export default function PodDialogCreate() {
 
   const handleSave = (event) => {
     event.preventDefault();
-    pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).id, fav: isFav})
-    window.location.reload()
+    let response = pc.createPin({url: url, user_id: JSON.parse(sessionStorage.user).ID, fav: isFav})
+    if (response.status === 'OK') {
+      window.location.reload()
+    } else {
+      errorMessage = response.message;
+      setAlert(true);
+    }
   };
 
   const onUrlChange = (event)  => {
@@ -38,6 +48,18 @@ export default function PodDialogCreate() {
   const onFavChange = ()  => {
     isFav = !isFav
   }
+
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setAlert(false);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   return (
     <div  style={{ display: "flex" }}>
@@ -66,6 +88,11 @@ export default function PodDialogCreate() {
           <Button onClick={handleSave}>Guardar</Button>
         </DialogActions>
       </Dialog>
+      <Snackbar open={alert} autoHideDuration={3000} onClose={handleCloseAlert}>
+        <Alert onClose={handleCloseAlert} severity="error" sx={{ width: '100%' }}>
+         {errorMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
