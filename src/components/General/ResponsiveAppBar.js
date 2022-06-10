@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from "react-router-dom";
 const authPages = ['Home', 'Pins', 'Youtube', 'Podcast'];
 const authNoPages = ['SignIn', 'SignUp'];
-const urlPages = {'Home': "/", 'Pins': "/pin", 'Youtube': "/yt", 'Podcast': "/pod", 'SignIn': "/signin",  'SignUp': "/signup"};
+const urlPages = {'Home': "/dev-pins/", 'Pins': "/dev-pins/pin", 'Youtube': "/dev-pins/yt", 'Podcast': "/dev-pins/pod", 'SignIn': "/dev-pins/signin",  'SignUp': "/dev-pins/signup"};
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 //const settingsPages = {'Profile': "handleCloseUserMenu", 'Account': "handleCloseUserMenu", 'Dashboard': "handleCloseUserMenu", 'Logout': "logout"};
 const ResponsiveAppBar = (props) => {
@@ -52,7 +52,7 @@ const ResponsiveAppBar = (props) => {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/dev-pins/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -160,7 +160,7 @@ const ResponsiveAppBar = (props) => {
           <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt={JSON.parse(sessionStorage.user).username} src="/static/images/avatar/2.jpg" />
+              <Avatar alt={JSON.parse(sessionStorage.user).username} src="" />
             </IconButton>
           </Tooltip>
           
