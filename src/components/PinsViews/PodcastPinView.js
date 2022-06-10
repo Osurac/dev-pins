@@ -106,13 +106,15 @@ export default function BasicPinView(props) {
 
 function getTitle(url){
   let ret;
+
+  if(url.length > 30){
+    ret = url.slice(0, 55)+'...';
+  }
+  
   if (window.innerWidth < 720 ) {
     ret = url.slice(0, 25)+'...';
   } else {
-    ret = url;
-  }
-  if(url.length > 30){
-    ret = url.slice(0, 55)+'...';
+    ret = ret;
   }
   return ret;
 }

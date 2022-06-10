@@ -86,7 +86,6 @@ export default function BasicPinView(props) {
   );
 }
 function getTitle(url){
-  console.log(url)
   if (window.innerWidth < 720 || url.length > 10) {
     return url.slice(0, 25)+'...';
   } else {

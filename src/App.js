@@ -39,19 +39,19 @@ function MyApp() {
         </Box>
       </Nav>
       <Routes>
-        {sessionStorage.login === 'true' && <Route path="/" element={<Home />} />}
-        {sessionStorage.login === 'true' && <Route path="/pin" element={<PINLinks />} />}
-        {sessionStorage.login === 'true' && <Route path="/yt" element={<YTLinks />} />}
-        {sessionStorage.login === 'true' && <Route path="/pod" element={<PODLinks />} />}
+        {sessionStorage.login === 'true' && <Route path="/dev-pins/" element={<Home />} />}
+        {sessionStorage.login === 'true' && <Route path="/dev-pins/pin" element={<PINLinks />} />}
+        {sessionStorage.login === 'true' && <Route path="/dev-pins/yt" element={<YTLinks />} />}
+        {sessionStorage.login === 'true' && <Route path="/dev-pins/pod" element={<PODLinks />} />}
         {!sessionStorage.login && <Route path="*" element={<SignIn />} /> }
         
-        {!sessionStorage.login && <Route path="/" element={<SignIn />} />}
-        {!sessionStorage.login && <Route path="/signin" element={<SignIn />} />}
-        {!sessionStorage.login && <Route path="/signup" element={<SignUp />} />}
-        {!sessionStorage.login && <Route path="/" element={<SignIn />} />}
-        {!sessionStorage.login && <Route path="/pin" element={<SignIn />} />}
-        {!sessionStorage.login && <Route path="/yt" element={<SignIn />} />}
-        {!sessionStorage.login && <Route path="/pod" element={<SignIn />} />}
+        {!sessionStorage.login && <Route path="/dev-pins/" element={<SignIn />} />}
+        {!sessionStorage.login && <Route path="/dev-pins/signin" element={<SignIn />} />}
+        {!sessionStorage.login && <Route path="/dev-pins/signup" element={<SignUp />} />}
+        {!sessionStorage.login && <Route path="/dev-pins/" element={<SignIn />} />}
+        {!sessionStorage.login && <Route path="/dev-pins/pin" element={<SignIn />} />}
+        {!sessionStorage.login && <Route path="/dev-pins/yt" element={<SignIn />} />}
+        {!sessionStorage.login && <Route path="/dev-pins/pod" element={<SignIn />} />}
         {!sessionStorage.login && <Route path="*" element={<SignIn />} /> }
       </Routes>
     </Router>

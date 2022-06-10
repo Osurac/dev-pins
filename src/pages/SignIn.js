@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -18,7 +16,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://dev-pins.com/">
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -42,7 +40,7 @@ export default function SignIn() {
       let user = response.user;
       sessionStorage.setItem("user", JSON.stringify(user[0]));
       sessionStorage.setItem("login", true);
-      document.location.href="/"
+      document.location.href="/dev-pins/"
     }else{
       console.log(response.message);
     }
@@ -86,10 +84,6 @@ export default function SignIn() {
               id="pwd"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -100,7 +94,7 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link href="/dev-pins/signup" variant="body2">
                   {"¿No tienes cuenta? Registro"}
                 </Link>
               </Grid>
